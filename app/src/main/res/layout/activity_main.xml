@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    tools:context="com.example.asus410.hlc03_appfranciscofernandez.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/fadalmeria" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:text="Galería de imágenes. Descargas"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/Bgaleria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VER GALERIA DE IMAGENES" />
+
+    <Button
+        android:id="@+id/Bdescarga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INICIAR DESCARGA DE IMAGENES" />
+
+    <Button
+        android:id="@+id/BcancelarDescarga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CANCELAR DESCARGA" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
