@@ -26,24 +26,29 @@
         android:id="@+id/Bgaleria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="clickGaleria"
         android:text="VER GALERIA DE IMAGENES" />
 
     <Button
         android:id="@+id/Bdescarga"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="startDescarga"
         android:text="INICIAR DESCARGA DE IMAGENES" />
 
     <Button
         android:id="@+id/BcancelarDescarga"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="stopDescarga"
         android:text="CANCELAR DESCARGA" />
 
     <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/progresbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:indeterminate="false" />
 
 </LinearLayout>
