@@ -5,20 +5,18 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    ProgressBar progressBar;
-    TareaAsincrona tarea;
+    private ProgressBar progressBar;
+    private TareaAsincrona tarea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +39,21 @@ public class MainActivity extends AppCompatActivity {
      */
     public void startDescarga(View view) {
 
-        /**********************************************************/
         //Si la descarga no se ha iniciado nunca o ha sido cancelada
-        /********** PONER CÓDIGO QUE FALTA *********/
-
-        try {
-            new TareaAsincrona().execute(new URL(
-                    "http://www.amazon.com/somefiles.pdf"), new URL(
-                    "http://www.wrox.com/somefiles.pdf"), new URL(
-                    "http://www.google.com/somefiles.pdf"), new URL(
-                    "http://www.learn2develop.net/somefiles.pdf"));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        if (tarea == null || tarea.isCancelled()) {
+            try {
+               tarea = new TareaAsincrona();
+               tarea.execute(new URL(
+                        "http://www.amazon.com/somefiles.pdf"), new URL(
+                        "http://www.wrox.com/somefiles.pdf"), new URL(
+                        "http://www.google.com/somefiles.pdf"), new URL(
+                        "http://www.learn2develop.net/somefiles.pdf"), new URL(
+                       "http://www.google.com/somefiles.pdf"), new URL(
+                       "http://www.learn2develop.net/somefiles.pdf"));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }else tostada("Debe esperar a que finalize la descarga");
     }
 
     /**
@@ -61,8 +61,14 @@ public class MainActivity extends AppCompatActivity {
      * @param view: botón comenzar descarga
      */
     public void stopDescarga(View view) {
-        /*********************************************/
-        /***** poner CÓDIGO QUE FALTA ******/
+        if (tarea != null && !tarea.isCancelled()){
+            tarea.cancel(true);
+        }else tostada("No hay descargas activas");
+
+    }
+
+    public void tostada(String s){
+       Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
 
     private class TareaAsincrona extends AsyncTask <URL, Integer, Long> {
@@ -81,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < count; i++) {
                 totalBytesDownloaded += DownloadFile(urls[i]);
                 // ---calcula el porcentaje descargado  reportando el progreso a onProgressUpdate()
-                publishProgress((int) (((i + 1) / (float) count) * 100));
+                publishProgress((int) ((((i + 1) / (float) count) * 100)),(i+1));
                 if (isCancelled()) break;
             }
             return totalBytesDownloaded;
@@ -99,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Descargando Archivos", String.valueOf(progress[0])
                     + "% descargado");
             Toast.makeText(getBaseContext(),
-                    String.valueOf(progress[0]) + "% descargado",
+                    String.valueOf(progress[0]) + "% descargado, Imagen"+progress[1],
                     Toast.LENGTH_LONG).show();
         }
 
@@ -118,6 +124,15 @@ public class MainActivity extends AppCompatActivity {
                     "Descargados " + result + " bytes", Toast.LENGTH_LONG)
                     .show();
 
+            progressBar.setProgress(0);
+        }
+
+        @Override
+        protected void onCancelled(Long result) {
+            Toast.makeText(getApplicationContext(), "Tarea cancelada! Descargados "+result+ " bytes",
+                    Toast.LENGTH_LONG).show();
+            //tarea no iniciada
+            tarea = null;
             progressBar.setProgress(0);
         }
 
